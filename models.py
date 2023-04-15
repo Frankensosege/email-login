@@ -49,6 +49,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
+    is_admin = models.BooleanField(default=False)
 
 
     objects = UserManager()
@@ -56,11 +57,11 @@ class User(AbstractBaseUser, PermissionsMixin):
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['nickname']
 
-    def get_full_name(self):
+    def get_name(self):
         # The user is identified by their email address
-        return self.email
+        return self.nickname
 
-    def get_short_name(self):
+    def get_email(self):
         # The user is identified by their email address
         return self.email
 

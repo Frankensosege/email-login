@@ -8,12 +8,12 @@ def userlogin(request):
         email = request.POST.get('email')
         password = request.POST.get('password')
         user = authenticate(email=email, password=password)
-        print(user)
+        # print(user)
 
         if user is not None:
             # redirect the user to the home page
             login(request, user)
-            print(user.nickname)
+            # print(user.nickname)
 
             redirect_to = reverse('login:welcome', kwargs={'nickname':user.nickname})
             return HttpResponseRedirect(redirect_to)
@@ -24,7 +24,6 @@ def userlogin(request):
         return redirect('login:welcome')
     else:
         form = LoginForm()
-        print('getgetgetgetgetgetget')
 
     return render(request, 'login.html', {'form':form})
 
@@ -43,8 +42,9 @@ def signup(request):
                 # redirect the user to the home page
                 login(request, user)
 
-                redirect_to = reverse('login:welcome', kwargs={'nickname':nickname})
-                return HttpResponseRedirect(redirect_to)
+                # redirect_to = reverse('login:welcome', kwargs={'nickname':nickname})
+                # return HttpResponseRedirect(redirect_to)
+                return render(request, 'welcome.html', {'name': nickname})
             else:
                 # display an error message
                 error = 'Invalid credentials. Please try again.'
@@ -60,6 +60,9 @@ def welcome(request, nickname):
     # error = None
     return render(request, 'welcome.html', {'name': nickname})
 
-def Logout(request):
+def userLogout(request):
     logout(request)
+    return redirect('login:login')
+
+def cancel(request):
     return redirect('login:login')

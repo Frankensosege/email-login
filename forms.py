@@ -15,7 +15,7 @@ class UserForm(UserCreationForm):
 
     class Meta:  # SignupForm에 대한 기술서
         model = User
-        fields = ("email", "nickname", "password1", "password2",)  # 작성한 필드만큼 화면에 보여짐
+        fields = ("email", "nickname", "password1", "password2")  # 작성한 필드만큼 화면에 보여짐
 
     def __init__(self, *args, **kwargs):
         # SignupForm 을 재정의하여 모든 template class 속성을 'form-control' 로 지정
@@ -43,15 +43,23 @@ class LoginForm(forms.ModelForm):
     #         }
     #     )
     # )
+    email = forms.EmailField(label='이메일')
+    password = forms.PasswordInput()
 
     class Meta:
         model = User
-        fields = ['email', 'password']
-        widgets = {
-            'email': forms.EmailInput(attrs={'class': 'form-control'}),
-            'password': forms.PasswordInput(attrs={'class': 'form-control'}),
-        }
-        labels = {
-            'email': '이메일',
-            'password': '비밀번호',
-        }
+        fields = ("email", "password")
+        # fields = ['email', 'password']
+        # widgets = {
+        #     'email': forms.EmailInput(attrs={'class': 'form-control'}),
+        #     'password': forms.PasswordInput(attrs={'class': 'form-control'}),
+        # }
+        # labels = {
+        #     'email': '이메일',
+        #     'password': '비밀번호',
+        # }
+    def __init__(self, *args, **kwargs):
+        # SignupForm 을 재정의하여 모든 template class 속성을 'form-control' 로 지정
+        super(LoginForm, self).__init__(*args, **kwargs)
+        for field_name, field in self.fields.items():
+            field.widget.attrs['class'] = 'form-control'
